@@ -124,6 +124,7 @@ if [ -f .env ]; then
 
     ansible-playbook -i ./resources/config/hosts ./resources/ansible-yml/cs-clean.yml
     
+    ansible-playbook -i ./resources/config/hosts ./resources/ansible-yml/cs-up.yml
 
 else {
     echo "Environment file .env not found"
