@@ -42,6 +42,27 @@ function prep_nginx {
     echo ""
 }
 
+# FUNCTION: preparation for MediaWiki setting file
+function prep_mw_domain {
+    echo "Prepare LocalSettings.php file"
+    FQDN="$DEFAULT_TRANSPORT://www.$YOUR_DOMAIN"
+    KCK_AUTH_FQDN="$DEFAULT_TRANSPORT://kck.$YOUR_DOMAIN"
+    MTM_FQDN="$DEFAULT_TRANSPORT://mtm.$YOUR_DOMAIN"
+    MTM_ROOT="mtm.$YOUR_DOMAIN"
+    GIT_FQDN="$DEFAULT_TRANSPORT://git.$YOUR_DOMAIN"
+    #
+    sed "s|#MTM_SUBDOMAIN|$MTM_ROOT|g" ./config-template/LocalSettings.php > ./config/LocalSettings.php
+    sed -i "s|#YOUR_FQDN|$FQDN|g" ./config/LocalSettings.php
+    sed -i "s|#KCK_SUBDOMAIN|$KCK_AUTH_FQDN|g" ./config/LocalSettings.php
+    #
+    sed "s|#MTM_SUBDOMAIN|$MTM_FQDN|g" ./config-template/config.ini.php > ./config/config.ini.php
+    #
+    sed "s|#YOUR_DOMAIN|$YOUR_DOMAIN|g" ./config-template/update-mtm-config.sql > ./config/update-mtm-config.sql
+    sed -i "s|#YOUR_KCK_FQDN_DOMAIN|$KCK_AUTH_FQDN|g" ./config/update-mtm-config.sql
+    #
+    sed "s|#GIT_FQDN|$GIT_FQDN|g" ./config-template/app.ini > ./config/app.ini
+}
+
 
 # STARTING THE PROCESS
 echo "Starting the process at $(date)"
@@ -98,7 +119,11 @@ if [ -f .env ]; then
     read -p "prepare nginx config Press [Enter] key to continue..."
     echo "finished prepare nginx config"
 
+    prep_mw_domain
+    echo "finished prepare LocalSettings.php"
 
+    ansible-playbook -i ./resources/config/hosts ./resources/ansible-yml/cs-clean.yml
+    
 
 else {
     echo "Environment file .env not found"
