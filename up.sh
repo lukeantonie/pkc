@@ -126,8 +126,46 @@ if [ -f .env ]; then
     
     ansible-playbook -i ./resources/config/hosts ./resources/ansible-yml/cs-up.yml
 
+    # remote shell, ansible is not stable to bring container services up
+    CMD_VARS="ssh -i $ansible_ssh_private_key_file $ansible_user@$ansible_host_name 'cd /home/$ansible_user/cs; docker compose pull'"
+    echo "docker compose pull"
+    eval $CMD_VARS >/dev/null
+
+    CMD_VARS="ssh -i $ansible_ssh_private_key_file $ansible_user@$ansible_host_name 'cd /home/$ansible_user/cs; docker compose up -d'"
+    echo "docker compose up -d"
+    eval $CMD_VARS > /dev/null
+
+    # Install HTTPS SSL
+    if [ $DEFAULT_TRANSPORT == "https" ]; then
+        echo "Installing SSL Certbot for $DEFAULT_TRANSPORT protocol"
+        ./resources/scripts/cs-certbot.sh ./resources/config/hosts
+    fi
+
+    echo "Post installation setup"
+    ansible-playbook -i ./resources/config/hosts ./resources/ansible-yml/cs-up-3.yml
+
+    echo "Check installation status"
+    ansible-playbook -i ./resources/config/hosts ./resources/ansible-yml/cs-svc.yml  
+      
+    echo "---------------------------------------------------------------------------"
+    echo "Installation is complete, please read below information"
+    echo "To access MediaWiki, please use admin/xlp-admin-pass"
+    echo "To access Gitea, please use admin/pkc-admin"
+    echo "To access Matomo, please use user/bitnami"
+    echo "To access phpMyAdmin, please use Database: database, User: pkcmysqladmin, password: P2v*]57[(9mv3BqX"
+    echo "To access Code Server, please use password: $VS_PASSWORD"
+    echo "To access Keycloak, please use admin/Pa55w0rd"
+    echo "To access Quant-UX, please register"
+    echo "To access Swagger-API, no password"
+    echo ""
+    echo "---------------------------------------------------------------------------"
+
+    # display finish time
+    date
 else {
     echo "Environment file .env not found"
     exit 1;
 }
 fi
+
+echo "Mark Finished Process at $(date)"
