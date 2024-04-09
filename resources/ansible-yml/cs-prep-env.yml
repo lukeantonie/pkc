@@ -1,0 +1,36 @@
+---
+- name: install and provisioning dockers PKC Server
+  hosts: all
+  become: yes
+  gather_facts: no
+  vars:
+    - docker_version: "latest"
+    - retention: 1
+
+  tasks:
+  - name: Prepare .env file, based on hosts file, copy to target
+    delegate_to: localhost
+    copy: 
+      src: ../../config-template/.env-template
+      dest: ../../.env
+
+  - name: .env, edit 1
+    delegate_to: localhost
+    ansible.builtin.replace:
+      path: ../../.env
+      regexp: '#YOUR_DOMAIN#'
+      replace: '{{ hostvars[inventory_hostname].domain }}'
+
+  - name: .env, edit 2
+    delegate_to: localhost
+    ansible.builtin.replace:
+      path: ../../.env
+      regexp: '#YOUR_DEFAULT_TRANSPORT#'
+      replace: '{{ hostvars[inventory_hostname].default_transport }}'
+
+  - name: .env, edit 3
+    delegate_to: localhost
+    ansible.builtin.replace:
+      path: ../../.env
+      regexp: '#YOUR_EMAIL_ADDRESS#'
+      replace: '{{ hostvars[inventory_hostname].email }}'
