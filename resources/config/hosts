@@ -1,1 +1,1 @@
-159.223.39.247 ansible_connection=ssh ansible_ssh_private_key_file=/Users/irwan.cahyono/.ssh/id_rsa ansible_user=pkcuser domain=159.223.39.247 default_transport=http email=irwan.l.cahyono@gmail.com
+188.166.226.202 ansible_connection=ssh ansible_ssh_private_key_file=/Users/irwan.cahyono/.ssh/id_rsa ansible_user=pkcuser domain=188.166.226.202 default_transport=http email=irwan.l.cahyono@gmail.com

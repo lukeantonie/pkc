@@ -171,7 +171,7 @@
       shell: "tar -xvf ./mountpoint.tar.gz"
       args:
         chdir: "/home/{{ ansible_user }}/cs"
-        warn: no
+        #warn: no
 
     - name: Upload LocalSettings.php and other setting
       copy:
