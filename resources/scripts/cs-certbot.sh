@@ -20,6 +20,7 @@ if [ -f .env ]; then
     KCK_SUBDOMAIN=kck.$YOUR_DOMAIN
     SWG_SUBDOMAIN=swg.$YOUR_DOMAIN
     QTUX_SUBDOMAIN=qtux.$YOUR_DOMAIN
+    RED_SUBDOMAIN=red.$YOUR_DOMAIN
 else
     echo ".env files not found, please provide the .env file"
     exit 1;

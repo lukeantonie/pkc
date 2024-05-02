@@ -372,3 +372,6 @@ $wgRememberMe = 'never';
 // $wgDebugToolbar = true;
 // $wgDevelopmentWarnings = true;
 $wgDeprecationReleaseLimit = '1.x';
+
+wfLoadExtension( 'YouTube' );
+wfLoadExtension( 'EmbedVideo' );

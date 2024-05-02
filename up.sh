@@ -39,6 +39,8 @@ function prep_nginx {
     sed "s/#YOUR_DOMAIN/$YOUR_DOMAIN/g" ./config-template/pkc.conf > ./config/pkc.conf
     
     sed "s/#MDL_SUBDOMAIN/$MDL_SUBDOMAIN/g" ./config-template/mdl.conf > ./config/mdl.conf
+
+    sed "s/#RED_SUBDOMAIN/$RED_SUBDOMAIN/g" ./config-template/red.conf > ./config/red.conf
     echo ""
 }
 
@@ -84,6 +86,7 @@ if [ -f .env ]; then
     MDL_SUBDOMAIN=mdl.$YOUR_DOMAIN
     SWG_SUBDOMAIN=swg.$YOUR_DOMAIN
     QTUX_SUBDOMAIN=qtux.$YOUR_DOMAIN
+    RED_SUBDOMAIN=red.$YOUR_DOMAIN
 
     # Displays installation plan on remote host machine
     echo "--------------------------------------------------------"
@@ -107,6 +110,7 @@ if [ -f .env ]; then
     echo "Keycloak will be accessible from: $KCK_SUBDOMAIN"
     echo "Swagger will be accessible from: $SWG_SUBDOMAIN"
     echo "Quant UX will be accessible from: $QTUX_SUBDOMAIN"
+    echo "Redmine will be accessible from: $RED_SUBDOMAIN"
     echo ""
     echo ""
     read -p "Press [Enter] key to continue..."
@@ -169,3 +173,6 @@ else {
 fi
 
 echo "Mark Finished Process at $(date)"
+# redmine default
+# u: admin, p: admin
+# u: admin, p: admin-redmine
