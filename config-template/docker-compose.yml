@@ -167,28 +167,28 @@ services:
       pkcnet:
         ipv4_address: 192.168.100.40
 
-  # lms:
-  #   image: bitnami/moodle:3.11.6
-  #   container_name: xlp_lms
-  #   environment:
-  #     - MYSQL_CLIENT_FLAVOR=mariadb
-  #     - MOODLE_DATABASE_HOST=database
-  #     - MOODLE_DATABASE_PORT_NUMBER=3306
-  #     - MOODLE_DATABASE_USER=moodle
-  #     - MOODLE_DATABASE_NAME=moodle
-  #     - MOODLE_DATABASE_PASSWORD=moodle-pass
-  #   volumes:
-  #     - ./mountpoint/moodle:/bitnami/moodle
-  #     - ./mountpoint/moodledata:/bitnami/moodledata
-  #   ports:
-  #     - ${MDL_PORT_NUMBER}:8080
-  #     - 32080:8443
-  #   restart: always
-  #   depends_on:
-  #   - database
-  #   networks:
-  #     pkcnet:
-  #       ipv4_address: 192.168.100.45
+  lms:
+    image: bitnami/moodle:3.11.6
+    container_name: xlp_lms
+    environment:
+      - MYSQL_CLIENT_FLAVOR=mariadb
+      - MOODLE_DATABASE_HOST=database
+      - MOODLE_DATABASE_PORT_NUMBER=3306
+      - MOODLE_DATABASE_USER=moodle
+      - MOODLE_DATABASE_NAME=moodle
+      - MOODLE_DATABASE_PASSWORD=moodle-pass
+    volumes:
+      - ./mountpoint/moodle:/bitnami/moodle
+      - ./mountpoint/moodledata:/bitnami/moodledata
+    ports:
+      - ${MDL_PORT_NUMBER}:8080
+      - 32080:8443
+    restart: always
+    depends_on:
+    - database
+    networks:
+      pkcnet:
+        ipv4_address: 192.168.100.45
 
   #
   # QuantUX
